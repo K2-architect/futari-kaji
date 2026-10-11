@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ふたりの家事</title>
+<meta name="apple-mobile-web-app-title" content="ふたりの家事">
+<meta name="robots" content="noindex">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<meta name="theme-color" content="#FBF5EE">
+<script>
+  // GAS で公開した Web アプリの URL（末尾が /exec のもの）
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbzrIdAhtqr8XiOi7_r3s7NgKzwyaE5du_2D_5btfEvtFvU7ht8ck3pBHERGzfK8fwi-/exec';
+
+  // ホーム画面のアイコンから開いたとき（URL に ?app=1 が付いている）は、すぐアプリへ移動する
+  if (/[?&]app=1\b/.test(location.search)) {
+    location.replace(APP_URL);
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #FBF5EE; --ink: #3B2F28; --muted: #75655A; --line: #EADFD3; --accent: #B5532E; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Zen Maru Gothic', sans-serif; }
+  main { max-width: 440px; margin: 0 auto; padding: 48px 24px 40px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+  img.icon { width: 112px; height: 112px; border-radius: 26px; box-shadow: 0 10px 28px rgba(59,47,40,.18); }
+  h1 { margin: 0; font-size: 26px; }
+  p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+  ol { margin: 0; padding: 18px 18px 18px 38px; background: #FFFFFF; border: 1px solid var(--line); border-radius: 18px; text-align: left; font-size: 15px; line-height: 1.8; width: 100%; }
+  .open { display: block; width: 100%; min-height: 52px; line-height: 52px; border-radius: 16px; background: var(--accent); color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none; }
+  .moving { display: none; }
+  .is-app .setup { display: none; }
+  .is-app .moving { display: block; }
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="apple-touch-icon.png" alt="ふたりの家事のアイコン">
+  <h1>ふたりの家事</h1>
+
+  <div class="moving">
+    <p>アプリを開いています…</p>
+    <p style="margin-top:12px"><a id="fallback" href="#" style="color:var(--accent)">開かない場合はこちら</a></p>
+  </div>
+
+  <div class="setup" style="display:flex;flex-direction:column;gap:20px;width:100%">
+    <p>ホーム画面に追加すると、このアイコンから<br>すぐにアプリを開けるようになります。</p>
+    <ol>
+      <li>画面下の共有ボタン（四角から矢印が出ているアイコン）をタップ</li>
+      <li>「ホーム画面に追加」をタップ</li>
+      <li>「Webアプリとして開く」がある場合はオフにして、「追加」をタップ</li>
+    </ol>
+    <a id="open" class="open" href="#">アプリを開く</a>
+  </div>
+</main>
+<script>
+  document.getElementById('open').href = APP_URL;
+  document.getElementById('fallback').href = APP_URL;
+  if (/[?&]app=1\b/.test(location.search)) {
+    document.body.classList.add('is-app');
+  } else if (history.replaceState) {
+    // ホーム画面に追加されるURLに ?app=1 を付けておく（ページは再読み込みしない）
+    history.replaceState(null, '', location.pathname + '?app=1');
+  }
+</script>
+</body>
+</html>
